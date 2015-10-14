@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot.'/local/anonymousposting/index_form.php');
 
 require_login();
-require_capability('moodle/site:config', get_context_instance(CONTEXT_SYSTEM));
+require_capability('moodle/site:config', context_system::instance());
 
 $pageparams = array();
 admin_externalpage_setup('local_anonymousposting', '', $pageparams);
