@@ -38,7 +38,7 @@ class local_anonymousposting_form extends moodleform {
         $mform->addElement('checkbox', 'enabled', null, get_string('enabled', 'local_anonymousposting'));
         $mform->setDefault('enabled', 1);
 
-        $context = get_context_instance(CONTEXT_COURSE, SITEID, MUST_EXIST);
+        $context = context_course::instance(SITEID,MUST_EXIST);
         $assignableroles = get_assignable_roles($context);
 
         $mform->addElement('select', 'defaultcourserole', get_string('defaultcourserole', 'local_anonymousposting'), $assignableroles);
