@@ -29,7 +29,7 @@ $id = required_param('id', PARAM_INT);
 
 $cm = get_coursemodule_from_id('', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 $PAGE->set_url('/local/anonymousposting/layout.php', array('id'=>$id));
 
@@ -71,8 +71,18 @@ if (has_capability('moodle/course:manageactivities', $context)) {
     
     $newnode = "<li class=\"type_unknown collapsed contains_branch\"><p class=\"tree_item branch\"><span tabindex=\"0\">$stranonymousposting</span></p>";
     $newnode .= "<ul id=\"yui_3_4_1_1_1326125892104_50\">";
-    $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf activesetting\"><span tabindex=\"0\"><img alt=\"moodle\" class=\"smallicon navicon\" title=\"moodle\" src=\"".$CFG->wwwroot."/theme/image.php?theme=standard&amp;image=i%2Fnavigationitem&amp;rev=180\">$mode</span></p></li>";
-    $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"Forced subscription\" href=\"$actionurl\"><img alt=\"moodle\" class=\"smallicon navicon\" title=\"moodle\" src=\"".$CFG->wwwroot."/theme/image.php?theme=standard&amp;image=i%2Fnavigationitem&amp;rev=180\">$action</a></p></li>";
+    $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf activesetting\"><span tabindex=\"0\">".$OUTPUT->pix_icon(
+            'i/navigationitem',
+            '',
+            'moodle',
+            array('class' => 'tree-icon', 'title' => $strenable)
+        ).$mode."</span></p></li>";
+    $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"Forced subscription\" href=\"$actionurl\">".$OUTPUT->pix_icon(
+            'i/navigationitem',
+            '',
+            'moodle',
+            array('class' => 'tree-icon', 'title' => $strdisable)
+        ).$action."</a></p></li>";
     $newnode .= "</ul></li>";
     
     $jsedit = "
