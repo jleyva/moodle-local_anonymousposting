@@ -36,7 +36,7 @@ $PAGE->set_url('/local/anonymousposting/forum.php', array('id' => $id,'enabled' 
 
 require_login($course, false, $cm); // needed to setup proper $COURSE
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 require_capability('moodle/course:manageactivities', $context);
 
 $strenableordisable = get_string('enableordisable', 'local_anonymousposting');
@@ -58,12 +58,12 @@ if (! $anonymousposting) {
 }
 
 if ($confirm and confirm_sesskey()) {
-    if( $enabled ) {        
+    if( $enabled ) {
         $msg = get_string('enableddone', 'local_anonymousposting');
-    } else {        
+    } else {
         $msg = get_string('disableddone', 'local_anonymousposting');
     }
-    
+
     set_config('forum_'.$id , $enabled, 'local_anonymousposting');
     echo $OUTPUT->box($msg);
     echo $OUTPUT->continue_button($return);

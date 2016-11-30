@@ -31,7 +31,7 @@ $PAGE->set_url('/local/anonymousposting/relogin.php');
 $cmid = $SESSION->aucontext->instanceid;
 $cm = get_coursemodule_from_id('', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 require_login($course, false, $cm); // needed to setup proper $COURSE
 
@@ -51,7 +51,7 @@ $urltogo = new moodle_url('/mod/forum/view.php', array('id' => $cmid));
 $timenow = time();
 // TODO - Some settings for this, 15 minutes
 // This is to prevent inactive users
-if ($timenow - $SESSION->autime > 900) {    
+if ($timenow - $SESSION->autime > 900) {
     require_logout();
 
     $SESSION->wantsurl = $urltogo;
@@ -60,18 +60,18 @@ if ($timenow - $SESSION->autime > 900) {
 
 // Some security checks
 if ($USER->auth == 'nologin') {
-   
-    // switch to fresh new $SESSION    
+
+    // switch to fresh new $SESSION
     $_SESSION['SESSION']     = new stdClass();
 
     /// Create the new $USER object with all details and reload needed capabilities
     $user = $_SESSION['AUREALUSER'];
     unset($_SESSION['AUREALUSER']);
     unset($SESSION->aucontext);
-    
-    $user = get_complete_user_data('id', $user->id);    
+
+    $user = get_complete_user_data('id', $user->id);
     $user->loginascontext = $context;
-    session_set_user($user);
+    \core\session\manager::set_user($user);
 
     $strloginas    = get_string('loginas');
     $strloggedinas = get_string('loggedinas', '', fullname($user));

@@ -55,7 +55,7 @@ $jsedit = "";
 if (has_capability('moodle/course:manageactivities', $context)) {
 
     $params = array("id" => $id);
-        
+
     if ($status) {
         $params['enabled'] = 0;
         $mode = $strenabled;
@@ -64,11 +64,11 @@ if (has_capability('moodle/course:manageactivities', $context)) {
     else{
         $params['enabled'] = 1;
         $mode = $strdisabled;
-        $action = $strenable;        
+        $action = $strenable;
     }
-    
+
     $actionurl = new moodle_url('/local/anonymousposting/forum.php', $params);
-    
+
     $newnode = "<li class=\"type_unknown collapsed contains_branch\"><p class=\"tree_item branch\"><span tabindex=\"0\">$stranonymousposting</span></p>";
     $newnode .= "<ul id=\"yui_3_4_1_1_1326125892104_50\">";
     $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf activesetting\"><span tabindex=\"0\">".$OUTPUT->pix_icon(
@@ -84,7 +84,7 @@ if (has_capability('moodle/course:manageactivities', $context)) {
             array('class' => 'tree-icon', 'title' => $strdisable)
         ).$action."</a></p></li>";
     $newnode .= "</ul></li>";
-    
+
     $jsedit = "
     var stop = false;
     var settingsnav = Y.one('#settingsnav');
@@ -92,7 +92,7 @@ if (has_capability('moodle/course:manageactivities', $context)) {
         var settings = settingsnav.one('.block_tree').all('ul');
         settings.each(function (setting) {
             var lists = setting.all('li');
-            lists.each(function (list) {        
+            lists.each(function (list) {
                 if (!stop && list.getContent().indexOf('subscribers.php?id=".$cm->instance."') ) {
                     setting.append('".$newnode."');
                     stop = true;
@@ -109,38 +109,38 @@ if (has_capability('moodle/course:manageactivities', $context)) {
 
 $jsuser = "";
 if ($status and !isset($SESSION->aucontext)) {
-    
+
     $jsuser .= "
     var newpost = Y.one('#newdiscussionform');
-    
+
     if (newpost) {
         newpost.one('div').append('&nbsp;&nbsp;<input type=\"button\" id=\"apnewdiscussion\" value=\"".$strnewpost."\">');
         Y.one('#apnewdiscussion').on('click', function(e) {
-            location.href = '".$changeuserurl."&action=newpost'; 
+            location.href = '".$changeuserurl."&action=newpost';
         });
     }
-    
-    var replyposts = Y.one('#region-main').all('.commands');    
+
+    var replyposts = Y.one('#region-main').all('.commands');
     replyposts.each(function (reply) {
         var content = reply.getContent();
         var tok = content.indexOf('reply=');
         if (tok) {
             content = content.substring(tok);
-            var replyId = content.substring(6, content.indexOf('\"'));            
+            var replyId = content.substring(6, content.indexOf('\"'));
             reply.append('&nbsp;|&nbsp;<a href =\"".$changeuserurl."&action=reply&replyid='+replyId+'\">".$strreply."</a>');
         }
-    });    
+    });
     ";
-    
+
 }
 
 // Show link for return to the actual user
 if ($status and isset($SESSION->aucontext)) {
     $strrelogin = get_string('relogin', 'local_anonymousposting');
     $url = new moodle_url('/local/anonymousposting/relogin.php', array('sesskey' => sesskey()));
-    
-    $newnode = "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"$strrelogin\" href=\"$url\"><img alt=\"moodle\" class=\"smallicon navicon\" title=\"moodle\" src=\"{$CFG->wwwroot}/theme/image.php?theme=standard&amp;image=i%2Fnavigationitem&amp;rev=180\">$strrelogin</a></p></li>";
-    
+
+    $newnode = "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"$strrelogin\" href=\"$url\">$strrelogin</a></p></li>";
+
     $jsuser .= "
     var stop = false;
     var settingsnav = Y.one('#settingsnav');
@@ -148,7 +148,7 @@ if ($status and isset($SESSION->aucontext)) {
         var settings = settingsnav.one('.block_tree').all('ul');
         settings.each(function (setting) {
             var lists = setting.all('li');
-            lists.each(function (list) {        
+            lists.each(function (list) {
                 if (!stop && list.getContent().indexOf('subscribers.php?id=".$cm->instance."') ) {
                     setting.append('".$newnode."');
                     stop = true;
@@ -168,9 +168,9 @@ $js = "
 YUI().use('node', function (Y) {
 
 ".$jsuser."
-    
+
 ".$jsedit."
-    
+
 });
 
 ";

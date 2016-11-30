@@ -34,9 +34,9 @@ defined('MOODLE_INTERNAL') || die;
  * @global moodle_page $PAGE
  * @param navigation_node $nav Current navigation object
  */
-function anonymousposting_extends_navigation ($nav) {
+function local_anonymousposting_extend_navigation($nav) {
     global $USER, $PAGE, $SESSION;
-    
+
     // Check if we need to manipulate the DOM for adding links for managers and users
     if ($PAGE->context->contextlevel == CONTEXT_MODULE and get_config('local_anonymousposting', 'enabled')){
         if ($cm = get_coursemodule_from_id(false, $PAGE->context->instanceid, 0, false) and $cm->modname == 'forum') {
@@ -45,7 +45,7 @@ function anonymousposting_extends_navigation ($nav) {
         }
     }
 
-    if (isset($SESSION->aucontext)) {        
+    if (isset($SESSION->aucontext)) {
         // Limit navigation to the forum context
         if ($PAGE->context->id != $SESSION->aucontext->id) {
             // context instanceid = course module id for this context (forum)

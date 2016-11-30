@@ -25,7 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version  = 2011122401;
-$plugin->requires = 2010112400;
+$plugin->version  = 2011122402;
+$plugin->requires = 2015051100; // Requires 2.9
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 1.1;
+$plugin->release = 2.0;
+$plugin->component = 'local_anonymousposting';

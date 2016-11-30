@@ -37,8 +37,7 @@ $PAGE->set_url('/local/anonymousposting/changeuser.php', array('id' => $id, 'act
 
 require_login($course, false, $cm); // needed to setup proper $COURSE
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
-
+$context = context_module::instance($cm->id);
 $return = new moodle_url('/mod/forum/view.php', array('id' => $id));
 
 $strchangeuser = get_string('strchangeuser', 'local_anonymousposting');
@@ -58,7 +57,7 @@ if (! $anonymousposting or ! $status) {
 }
 
 if ($confirm and confirm_sesskey()) {
-    
+
     // TODO, this have to be in a constant or setting
     $anonuser = 'localanonymousposting';
     // Check if the user exists
@@ -73,11 +72,11 @@ if ($confirm and confirm_sesskey()) {
         $user->lastname = get_string('userlastname', 'local_anonymousposting');
         $user->email = 'noreply@localhost';
         $user->city = $USER->city;
-        $user->country = $USER->country;        
+        $user->country = $USER->country;
         $user->timezone = $USER->timezone;
         $user->maildisplay = 0;
         $user->lang = $USER->lang;
-        
+
         $user->id = $DB->insert_record('user', $user);
         // Reload full user
         $user = $DB->get_record('user', array('id' => $user->id));
@@ -90,13 +89,13 @@ if ($confirm and confirm_sesskey()) {
     $today = time();
     $today = make_timestamp(date('Y', $today), date('m', $today), date('d', $today), 0, 0, 0);
     $timeend = 0;
-    
+
     if (enrol_is_enabled('manual')) {
         $manual = enrol_get_plugin('manual');
     } else {
-        print_error("Missing manual enrol method");        
+        print_error("Missing manual enrol method");
     }
-    
+
     if ($instances = enrol_get_instances($course->id, false)) {
         foreach ($instances as $instance) {
             if ($instance->enrol === 'manual') {
@@ -115,21 +114,21 @@ if ($confirm and confirm_sesskey()) {
         $roleid = $instance->roleid;
     }
     role_assign($roleid, $user->id, $context->id);
-    
+
     // Login as the anonymous user
-    
-    // switch to fresh new $SESSION    
+
+    // switch to fresh new $SESSION
     $_SESSION['SESSION']     = new stdClass();
 
     /// Create the new $USER object with all details and reload needed capabilities
     $_SESSION['AUREALUSER'] = $_SESSION['USER'];
-    $user = get_complete_user_data('id', $user->id);    
+    $user = get_complete_user_data('id', $user->id);
     $user->loginascontext = $context;
-    session_set_user($user);
-    
+    \core\session\manager::set_user($user);
+
     $SESSION->aucontext = $context;
     $SESSION->autime = time();
-    
+
     if ($replyid) {
         $params = array('reply' => $replyid);
     }
@@ -142,7 +141,7 @@ if ($confirm and confirm_sesskey()) {
 
 echo $OUTPUT->header();
 
-if (session_is_loggedinas()) {
+if (\core\session\manager::is_loggedinas()) {
     print_error('youcannouseloginas', 'local_anonymousposting');
 } else {
     $msg = get_string('strchangeusermsg', 'local_anonymousposting');
