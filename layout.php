@@ -84,6 +84,7 @@ if (has_capability('moodle/course:manageactivities', $context)) {
             array('class' => 'tree-icon', 'title' => $strdisable)
         ).$action."</a></p></li>";
     $newnode .= "</ul></li>";
+    $newnode = preg_replace( "/\r|\n/", "", $newnode );
 
     $jsedit = "
     var stop = false;
@@ -114,7 +115,7 @@ if ($status and !isset($SESSION->aucontext)) {
     var newpost = Y.one('#newdiscussionform');
 
     if (newpost) {
-        newpost.one('div').append('&nbsp;&nbsp;<input type=\"button\" id=\"apnewdiscussion\" value=\"".$strnewpost."\">');
+        newpost.append('&nbsp;&nbsp;<input type=\"button\" id=\"apnewdiscussion\" value=\"".$strnewpost."\">');
         Y.one('#apnewdiscussion').on('click', function(e) {
             location.href = '".$changeuserurl."&action=newpost';
         });
@@ -140,6 +141,7 @@ if ($status and isset($SESSION->aucontext)) {
     $url = new moodle_url('/local/anonymousposting/relogin.php', array('sesskey' => sesskey()));
 
     $newnode = "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"$strrelogin\" href=\"$url\">$strrelogin</a></p></li>";
+    $newnode = preg_replace( "/\r|\n/", "", $newnode );
 
     $jsuser .= "
     var stop = false;
