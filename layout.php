@@ -69,7 +69,15 @@ if (has_capability('moodle/course:manageactivities', $context)) {
 
     $actionurl = new moodle_url('/local/anonymousposting/forum.php', $params);
 
-    $newnode = "<li class=\"type_unknown collapsed contains_branch\"><p class=\"tree_item branch\"><span tabindex=\"0\">$stranonymousposting</span></p>";
+    $newnode = "<li class=\"tree_setting depth_2 item_with_icon \">"
+            . "<p class=\"tree_item hasicon tree_item leaf\">"
+            . "<span tabindex=\"0\">"
+            . $OUTPUT->pix_icon(
+                'i/navigationitem',
+                '',
+                'moodle',
+                array('class' => 'tree-icon'))
+            . "$stranonymousposting</span></p>";
     $newnode .= "<ul id=\"yui_3_4_1_1_1326125892104_50\">";
     $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf activesetting\"><span tabindex=\"0\">".$OUTPUT->pix_icon(
             'i/navigationitem',
@@ -77,7 +85,7 @@ if (has_capability('moodle/course:manageactivities', $context)) {
             'moodle',
             array('class' => 'tree-icon', 'title' => $strenable)
         ).$mode."</span></p></li>";
-    $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"Forced subscription\" href=\"$actionurl\">".$OUTPUT->pix_icon(
+    $newnode .= "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"$action\" href=\"$actionurl\">".$OUTPUT->pix_icon(
             'i/navigationitem',
             '',
             'moodle',
