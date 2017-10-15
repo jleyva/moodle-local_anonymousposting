@@ -41,6 +41,7 @@ if (! $anonymousposting = get_config('local_anonymousposting', 'enabled')) {
 }
 
 $status = get_config('local_anonymousposting', 'forum_'.$id);
+$anonymousonly = get_config('local_anonymousposting', 'anonymousonly');
 
 $changeuserurl = $CFG->wwwroot.'/local/anonymousposting/changeuser.php?id='.$id;
 $strnewpost = get_string('newpost', 'local_anonymousposting');
@@ -50,6 +51,7 @@ $strenable = get_string('enable', 'local_anonymousposting');
 $strdisable = get_string('disable', 'local_anonymousposting');
 $strenabled = get_string('enabled', 'local_anonymousposting');
 $strdisabled = get_string('disabled', 'local_anonymousposting');
+$strforumreply = get_string('reply', 'mod_forum');
 
 $jsedit = "";
 if (has_capability('moodle/course:manageactivities', $context)) {
@@ -140,6 +142,19 @@ if ($status and !isset($SESSION->aucontext)) {
         }
     });
     ";
+
+    // If we only allow anonymous posting, then need to remove the post buttons.
+    if ($anonymousonly) {
+        $jsuser .= "
+            if (newpost) {
+                Y.one('#newdiscussionform input[type=\"submit\"]').remove();
+            }
+            replyposts.each(function (reply) {
+                var content = reply.getContent();
+                reply.setContent(content.replace('$strforumreply</a> |','</a>'));
+            });
+        ";
+    }
 
 }
 

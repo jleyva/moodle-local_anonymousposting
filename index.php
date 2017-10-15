@@ -51,6 +51,7 @@ if ($mform->is_cancelled()) {
     }
     set_config('defaultcourserole' , $data->defaultcourserole, 'local_anonymousposting');
     set_config('defaultactivityrole' , $data->defaultactivityrole, 'local_anonymousposting');
+    set_config('anonymousonly' , $data->anonymousonly, 'local_anonymousposting');
 }
 
 

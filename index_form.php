@@ -47,6 +47,10 @@ class local_anonymousposting_form extends moodleform {
         $mform->addElement('select', 'defaultactivityrole', get_string('defaultactivityrole', 'local_anonymousposting'), $assignableroles);
         $mform->setDefault('defaultactivityrole', '5');
 
+        $mform->addElement('checkbox', 'anonymousonly', get_string('anonymousonly', 'local_anonymousposting'),
+                get_string('anonymousonlydesc', 'local_anonymousposting'));
+        $mform->setDefault('anonymousonly', 0);
+
         $this->add_action_buttons();
     }
 

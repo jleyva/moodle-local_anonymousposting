@@ -45,5 +45,7 @@ $string['userfirstname'] = 'Anonymous';
 $string['userlastname'] = 'User';
 $string['youcannouseloginas'] = 'You can\'t use this function when you are login as other user';
 $string['relogin'] = 'Log in with my actual user';
+$string['anonymousonly'] = 'Allow anonymous only posting.';
+$string['anonymousonlydesc'] = 'If enabled, when anonymous posting is enabled for a forum, users can only post anonymously.';
 
 $string[''] = '';
