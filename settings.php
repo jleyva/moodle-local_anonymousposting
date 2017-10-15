@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die;
 global $PAGE;
 
 if ($hassiteconfig) { // needs this condition or there is error on login page
-    $ADMIN->add('modules', new admin_externalpage('local_anonymousposting',
+    $ADMIN->add('localplugins', new admin_externalpage('local_anonymousposting',
             get_string('pluginname', 'local_anonymousposting'),
             new moodle_url('/local/anonymousposting/index.php')));
 }
